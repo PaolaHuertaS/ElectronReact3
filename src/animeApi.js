@@ -12,7 +12,7 @@ const AnimeApi = () => {
     
     // Comprobamos si electronAPI está disponible
     if (window.electronAPI) {
-      window.electronAPI.fetchAnimeRecommendations(animeId)
+      window.electronAPI.fetchAnimeRecommendations(animeId) // se deberá hacer lo mismo para otros metodos
         .then(data => {
           console.log("Recomendaciones recibidas:", data);
           setRecommendations(data);
