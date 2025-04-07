@@ -1,24 +1,26 @@
 import React, { useState, useEffect } from 'react';
 
 const AnimeApi = () => {
-  const [animes, setAnimes] = useState([]);
+  const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
+  const animeId = 21;
 
   useEffect(() => {
-    console.log("Componente montado, intentando conectar a la API vía proxy...");
+    console.log("Componente montado, intentando obtener recomendaciones...");
     
     // Comprobamos si electronAPI está disponible
     if (window.electronAPI) {
-      window.electronAPI.fetchAnimes()
+      window.electronAPI.fetchAnimeRecommendations(animeId)
         .then(data => {
-          console.log("Datos recibidos:", data);
-          setAnimes(data);
+          console.log("Recomendaciones recibidas:", data);
+          setRecommendations(data);
           setLoading(false);
         })
         .catch(err => {
           console.error("Error:", err);
-          setError('Error al cargar animes: ' + err.message);
+          setError('Error al cargar recomendaciones: ' + err.message);
           setLoading(false);
         });
     } else {
@@ -28,7 +30,7 @@ const AnimeApi = () => {
   }, []);
 
   if (loading) {
-    return <div>Cargando animes... Por favor espera.</div>;
+    return <div>Cargando recomendaciones de anime... Por favor espera.</div>;
   }
   
   if (error) {
@@ -41,10 +43,10 @@ const AnimeApi = () => {
     );
   }
   
-  if (!animes || animes.length === 0) {
+  if (!recommendations || recommendations.length === 0) {
     return (
       <div>
-        <h1>No se encontraron animes</h1>
+        <h1>No se encontraron recomendaciones</h1>
         <p>La API respondió correctamente pero no devolvió datos.</p>
       </div>
     );
@@ -52,11 +54,22 @@ const AnimeApi = () => {
 
   return (
     <div>
-      <h1>Lista de Animes</h1>
+      <h1>Recomendaciones de Anime</h1>
       <div>
-        {animes.map((anime, index) => (
-          <div key={anime.id || anime._id || index}>
-            <pre>{JSON.stringify(anime, null, 2)}</pre>
+        {recommendations.map((anime, index) => (
+          <div key={anime.id || anime.idAnilist || index} style={{ marginBottom: '20px' }}>
+            <h3>{anime.title?.romaji || anime.title?.english || 'Sin título'}</h3>
+            {anime.coverImage && (
+              <img 
+                src={anime.coverImage.extraLarge || anime.coverImage.medium} 
+                alt={anime.title?.romaji || 'Anime'} 
+                style={{ maxWidth: '200px' }}
+              />
+            )}
+            {anime.genres && <p>Géneros: {anime.genres.join(', ')}</p>}
+            {anime.description && (
+              <p dangerouslySetInnerHTML={{ __html: anime.description.slice(0, 150) + '...' }}></p>
+            )}
             <hr />
           </div>
         ))}

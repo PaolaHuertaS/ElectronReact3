@@ -3,7 +3,8 @@ const { contextBridge, ipcRenderer } = require('electron');
 // Exponer APIs seguras al proceso de renderizado
 contextBridge.exposeInMainWorld('electronAPI', {
   // Función para obtener animes
-  fetchAnimes: () => ipcRenderer.invoke('fetch-animes')
+  fetchAnimes: () => ipcRenderer.invoke('fetch-animes'),
+  fetchAnimeRecommendations: (animeId) => ipcRenderer.invoke('fetch-anime-recommendations', animeId)
 });
 
 window.addEventListener('DOMContentLoaded', () => {
