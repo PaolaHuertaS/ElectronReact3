@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 
 //Fuente:
@@ -24,9 +24,19 @@ function createWindow() {
 
   // Carga el archivo HTML
   mainWindow.loadFile(path.join(__dirname, 'public', 'index.html'));
-  mainWindow.webContents.openDevTools();
 }
 
+ ipcMain.handle('fetch-animes', async () => {
+  try {
+    console.log('Realizando solicitud a la API desde el proceso principal...');
+    const response = await axios.get('http://192.168.101.15:3001/anime/recommendations/21');
+    console.log('Respuesta recibida:', response.status);
+    return response.data;
+  } catch (error) {
+    console.error('Error al obtener datos:', error.message);
+    throw new Error(error.message);
+  }
+ });
 //Este método se llamará cuando Electron haya terminado
 //la inicialización y esté listo para crear ventanas del navegador.
 app.whenReady().then(() => {
