@@ -4,7 +4,10 @@ const { contextBridge, ipcRenderer } = require('electron');
 contextBridge.exposeInMainWorld('electronAPI', {
   // Función para obtener animes
   fetchAnimes: () => ipcRenderer.invoke('fetch-animes'),
-  fetchAnimeRecommendations: (animeId) => ipcRenderer.invoke('fetch-anime-recommendations', animeId)
+  fetchAnimeRecommendations: (animeId) => ipcRenderer.invoke('fetch-anime-recommendations', animeId),
+  fetchAnimeDetails: (animeId) => ipcRenderer.invoke('fetch-anime-details', animeId),
+  fetchAnimeEpisodes: (animeId, withTorrents) => ipcRenderer.invoke('fetch-anime-episodes', animeId, withTorrents),
+  fetchRssFeed: (page, perPage, withHevc) => ipcRenderer.invoke('fetch-rss-feed', page, perPage, withHevc)
 });
 
 window.addEventListener('DOMContentLoaded', () => {

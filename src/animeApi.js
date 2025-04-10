@@ -29,6 +29,8 @@ const AnimeApi = () => {
     }
   }, []);
 
+  
+
   if (loading) {
     return <div>Cargando recomendaciones de anime... Por favor espera.</div>;
   }
