@@ -29,16 +29,14 @@ function createWindow() {
   mainWindow.loadFile(path.join(__dirname, "public", "index.html"));
 }
 
-ipcMain.handle("fetch-animes-r", async () => {
+ipcMain.handle("fetch-anime-recommendations", async (event, animeId) => {
   try {
-    console.log("Realizando solicitud a la API desde el proceso principal...");
-    const response = await axios.get(
-      `${API_URL}/anime/recommendations/${animeId}`
-    );
+    console.log(`Obteniendo recomendaciones para anime ID: ${animeId}`);
+    const response = await axios.get(`${API}/anime/recommendations/${animeId}`);
     console.log("Respuesta recibida:", response.status);
     return response.data;
   } catch (error) {
-    console.error("Error al obtener datos:", error.message);
+    console.error("Error al obtener recomendaciones:", error.message);
     throw new Error(error.message);
   }
 });
