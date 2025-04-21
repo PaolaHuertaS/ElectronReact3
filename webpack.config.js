@@ -19,6 +19,10 @@ module.exports = {
           },
         },
       },
+      { //esto es para que soporte Css
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      }
     ],
   },
   resolve: {
