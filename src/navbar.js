@@ -1,11 +1,23 @@
 //estilo nuevo
 import React from 'react';
-
+//Un toggle es un tipo de interruptor en la interfaz de usuario que permite al usuario cambiar entre dos estados
 const Navbar = ({ activeSection, onNavigate }) => {
   return (
     <nav className="navbar">
       <div className="navbar-container">
         <a href="#" className="logo">AnimeApp</a>
+        
+        <div className="nav-actions">
+          {/* Botón para cambiar el tema */}
+          <button 
+            className="theme-toggle" 
+            onClick={toggleDarkMode}
+            aria-label={darkMode ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+          >
+            {darkMode ? '☀️' : '🌙'}
+          </button>
+        </div>
+        
         <ul className="nav-links">
           <li>
             <a 
