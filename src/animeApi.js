@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Navbar from './navbar';
 
 const AnimeApi = () => {
@@ -12,7 +12,7 @@ const AnimeApi = () => {
   const [error, setError] = useState(null);
   const [activeSection, setActiveSection] = useState('recommendations');
 
-  //esto hará que haya desplazamiento 
+  //esto hará que haya interacción, navegación dentro de, lo vi en un video freecodecamp también https://www.youtube.com/watch?v=LlvBzyy-558
   const recommendationsRef = useRef(null);
   const animeListRef = useRef(null);
   const detailsRef = useRef(null);
