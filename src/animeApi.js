@@ -82,12 +82,12 @@ const AnimeApi = () => {
     }
   }, []);
 
-   //manejar la navegación
-   const handleNavigate = (section) => {
+  //manejar la navegación
+  const handleNavigate = (section) => {
     setActiveSection(section);
     let ref;
-    
-    switch(section) {
+
+    switch (section) {
       case 'recommendations': ref = recommendationsRef; break;
       case 'anime-list': ref = animeListRef; break;
       case 'details': ref = detailsRef; break;
@@ -95,7 +95,7 @@ const AnimeApi = () => {
       case 'rss': ref = rssRef; break;
       default: ref = null;
     }
-    
+
     if (ref && ref.current) {
       ref.current.scrollIntoView({ behavior: 'smooth' });
     }
@@ -127,7 +127,7 @@ const AnimeApi = () => {
   return (
     <div>
       <Navbar activeSection={activeSection} onNavigate={handleNavigate} />
-      
+
       <div className="container">
         {/*Recomendaciones*/}
         <section id="recommendations" ref={recommendationsRef} className="section">
@@ -166,7 +166,7 @@ const AnimeApi = () => {
         {/*Lista de Animes*/}
         <section id="anime-list" ref={animeListRef} className="section">
           <h1>Lista de Animes</h1>
-          {!animeList || animeList.length === 0 ? (
+          {!animeList || !Array.isArray(animeList) || animeList.length === 0 ? (
             <p>No se encontraron animes en la lista.</p>
           ) : (
             <div className="anime-grid">
@@ -212,8 +212,8 @@ const AnimeApi = () => {
                     </div>
                   )}
                   {animeDetails.description && (
-                    <div 
-                      className="anime-description" 
+                    <div
+                      className="anime-description"
                       dangerouslySetInnerHTML={{ __html: animeDetails.description }}
                     ></div>
                   )}
